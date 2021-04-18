@@ -13,15 +13,18 @@ class AddNotesPage extends StatefulWidget {
 }
 
 class _AddNotesPageState extends State<AddNotesPage> {
-  TextEditingController titleController = TextEditingController();
-  TextEditingController contentController = TextEditingController();
+  TextEditingController nimController = TextEditingController();
+  TextEditingController namaController = TextEditingController();
+
+  TextEditingController kelasController = TextEditingController();
   double defaultMargin = 15.0;
   @override
   void initState() {
     super.initState();
     if (widget.note != null) {
-      titleController.text = widget.note.title;
-      contentController.text = widget.note.content;
+      nimController.text = widget.note.nim;
+      namaController.text = widget.note.nama;
+      kelasController.text = widget.note.kelas;
     }
   }
 
@@ -41,10 +44,10 @@ class _AddNotesPageState extends State<AddNotesPage> {
                     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                     //color: Colors.white,
                     child: TextField(
-                      controller: titleController,
+                      controller: nimController,
                       style: TextStyle(color: Colors.grey, fontSize: 20),
                       decoration: InputDecoration(
-                        hintText: "Title",
+                        hintText: "Nim",
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 20),
                         border: InputBorder.none,
                       ),
@@ -62,11 +65,31 @@ class _AddNotesPageState extends State<AddNotesPage> {
                     margin: EdgeInsets.symmetric(horizontal: defaultMargin),
                     //color: Colors.white,
                     child: TextField(
-                      controller: contentController,
-                      maxLines: 100,
+                      controller: namaController,
                       style: TextStyle(color: Colors.grey, fontSize: 16),
                       decoration: InputDecoration(
-                        hintText: "Content....",
+                        hintText: "Nama",
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
+                        border: InputBorder.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Divider(
+                  thickness: 2,
+                  indent: 10,
+                  endIndent: 10,
+                ),
+                Center(
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+                    //color: Colors.white,
+                    child: TextField(
+                      controller: kelasController,
+                      style: TextStyle(color: Colors.grey, fontSize: 16),
+                      decoration: InputDecoration(
+                        hintText: "Kelas",
                         hintStyle: TextStyle(color: Colors.grey, fontSize: 16),
                         border: InputBorder.none,
                       ),
@@ -82,11 +105,12 @@ class _AddNotesPageState extends State<AddNotesPage> {
                 child: RaisedButton(
                   color: Colors.grey,
                   onPressed: () async {
-                    if (contentController.text.trim() != "") {
+                    if (namaController.text.trim() != "") {
                       await NotesServices.updateNotes(Note(
                           id: (widget.note != null) ? widget.note.id : null,
-                          title: titleController.text,
-                          content: contentController.text));
+                          nim: nimController.text,
+                          nama: namaController.text,
+                          kelas: kelasController.text));
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(

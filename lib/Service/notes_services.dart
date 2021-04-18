@@ -7,8 +7,9 @@ class NotesServices {
   static Future<void> updateNotes(Note note) async {
     await _notesCollection.doc(note.id).set({
       // 'userId': user.id,
-      'title': note.title,
-      'content': note.content,
+      'nim': note.nim,
+      'nama': note.nama,
+      'kelas': note.kelas,
       'time': DateTime.now()
     });
   }
@@ -21,8 +22,9 @@ class NotesServices {
     for (var document in documents) {
       notes.add(Note(
           id: document.id,
-          title: document.data()['title'],
-          content: document.data()['content'],
+          nim: document.data()['nim'],
+          nama: document.data()['nama'],
+          kelas: document.data()['kelas'],
           time: document.data()['time'].toString()));
     }
     return notes;
