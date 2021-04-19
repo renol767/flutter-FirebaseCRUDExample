@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../Model/note.dart';
 import 'add_notes_page.dart';
 import '../Service/notes_services.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 class ListNotesPage extends StatefulWidget {
   ListNotesPage({Key key}) : super(key: key);
@@ -15,6 +16,28 @@ class _ListNotesPageState extends State<ListNotesPage> {
   void initState() {
     super.initState();
     NotesServices.getNotes();
+    FirebaseMessaging fm = FirebaseMessaging();
+    fm.getToken().then((value) => print("token : $value"));
+    fm.configure(
+      onMessage: (message) async {
+        fm.requestNotificationPermissions(const IosNotificationSettings(
+            sound: true, badge: true, alert: true));
+        print(message);
+        showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+                    content: ListTile(
+                  title: Text(message['notification']['title']),
+                  subtitle: Text(message['notification']['body']),
+                )));
+      },
+      onLaunch: (message) async {
+        print(message);
+      },
+      onResume: (message) async {
+        print(message);
+      },
+    );
   }
 
   @override

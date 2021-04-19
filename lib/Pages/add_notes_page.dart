@@ -15,7 +15,6 @@ class AddNotesPage extends StatefulWidget {
 class _AddNotesPageState extends State<AddNotesPage> {
   TextEditingController nimController = TextEditingController();
   TextEditingController namaController = TextEditingController();
-
   TextEditingController kelasController = TextEditingController();
   double defaultMargin = 15.0;
   @override
